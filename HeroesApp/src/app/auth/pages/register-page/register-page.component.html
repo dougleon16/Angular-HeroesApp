@@ -1,0 +1,24 @@
+<div class="flex flex-column">
+  <span class="text-lg mb-4">Registro</span>
+  <mat-form-field>
+    <mat-label>Usuario</mat-label>
+    <input type="text" matInput placeholder="Nombre de Usuario" />
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>Nombre </mat-label>
+    <input type="text" matInput placeholder="Ingrese su Nombre" />
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>Contraseña </mat-label>
+    <input type="password" matInput placeholder="Ingrese su contraseña" />
+  </mat-form-field>
+
+  <button mat-button mat-flat-button color="primary">
+    <mat-icon>login</mat-icon>
+    Registrarse
+  </button>
+
+  <div class="flex justify-content-end mt-5">
+    <a routerLink="/auth/login"> ¿Ya tienes cuenta?</a>
+  </div>
+</div>
