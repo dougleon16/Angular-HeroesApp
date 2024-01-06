@@ -3,7 +3,7 @@ import { FormControl, FormGroup } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
 import { Hero, Publisher } from '../../interfaces/hero.interface';
 import { ActivatedRoute, Router } from '@angular/router';
-import { switchMap } from 'rxjs';
+import { filter, switchMap, tap } from 'rxjs';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmDialogComponent } from '../../components/confirm-dialog/confirm-dialog.component';
@@ -79,18 +79,28 @@ export class NewPageComponent implements OnInit {
 
     //TODO: Optimizar este codigo
 
-    dialogRef.afterClosed().subscribe((result) => {
-      if (!result) return;
+    dialogRef
+      .afterClosed()
+      .pipe(
+        filter((result: boolean) => result),
+        switchMap(() => this.heroService.deleteHeroById(this.currentHero.id)),
+        filter((wasDeleted: boolean) => wasDeleted)
+      )
+      .subscribe(() => {
+        this.router.navigate(['/heroes/list']);
+        this.showSnackBar(`${this.currentHero.superhero} deleted`);
 
-      this.heroService
-        .deleteHeroById(this.currentHero.id)
-        .subscribe((wasDeleted) => {
-          if (wasDeleted) {
-            this.router.navigate(['/heroes/list']);
-            this.showSnackBar(`${this.currentHero.superhero} deleted`);
-          }
-        });
-    });
+        // if (!result) return;
+
+        // this.heroService
+        //   .deleteHeroById(this.currentHero.id)
+        //   .subscribe((wasDeleted) => {
+        //     if (wasDeleted) {
+        //       this.router.navigate(['/heroes/list']);
+        //       this.showSnackBar(`${this.currentHero.superhero} deleted`);
+        //     }
+        //   });
+      });
   }
 
   showSnackBar(message: string): void {
