@@ -7,10 +7,11 @@
 /bazel-out
 
 # Node
-/node_modules
+
 npm-debug.log
 yarn-error.log
 node_modules/
+
 
 # IDEs and editors
 .idea/
@@ -41,3 +42,6 @@ testem.log
 # System files
 .DS_Store
 Thumbs.db
+.angular/
+.vscode/
+
